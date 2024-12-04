@@ -1,33 +1,33 @@
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useRef, useState } from "react";
-import ScreenWrapper from "../components/ScreenWrapper";
-import Icon from "../assets/icons";
-import { StatusBar } from "expo-status-bar";
-import BackButton from "../components/BackButton";
-import { useRouter } from "expo-router";
-import { hp, wp } from "../helpers/common";
-import { theme } from "../constants/theme";
-import Input from "../components/Input";
-import Button from "../components/Button";
-import { supabase } from "../lib/supabase";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native"
+import React, { useRef, useState } from "react"
+import ScreenWrapper from "../components/ScreenWrapper"
+import Icon from "../assets/icons"
+import { StatusBar } from "expo-status-bar"
+import BackButton from "../components/BackButton"
+import { useRouter } from "expo-router"
+import { hp, wp } from "../helpers/common"
+import { theme } from "../constants/theme"
+import Input from "../components/Input"
+import Button from "../components/Button"
+import { supabase } from "../lib/supabase"
 
 const SignUp = () => {
-  const router = useRouter();
-  const emailRef = useRef("");
-  const passwordRef = useRef("");
-  const nameRef = useRef("");
-  const [loading, setLoading] = useState(false);
+  const router = useRouter()
+  const emailRef = useRef("")
+  const passwordRef = useRef("")
+  const nameRef = useRef("")
+  const [loading, setLoading] = useState(false)
   const onSubmit = async () => {
     if (!emailRef.current || !passwordRef.current) {
-      Alert.alert(`Sign Up`, "please fill all the fields!");
-      return;
+      Alert.alert(`Sign Up`, "please fill all the fields!")
+      return
     }
     // good to go
-    let name = nameRef.current.trim();
-    let email = emailRef.current.trim();
-    let password = passwordRef.current.trim();
+    let name = nameRef.current.trim()
+    let email = emailRef.current.trim()
+    let password = passwordRef.current.trim()
 
-    setLoading(true);
+    setLoading(true)
 
     const {
       data: { session },
@@ -35,21 +35,17 @@ const SignUp = () => {
     } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: {
-          name,
-        },
-      },
-    });
+      options: { data: { name } },
+    })
 
-    setLoading(false);
+    setLoading(false)
 
     // console.log("session: ", session);
     // console.log("Error: ", error);
     if (error) {
-      Alert.alert("Sign up", error.message);
+      Alert.alert("Sign up", error.message)
     }
-  };
+  }
   return (
     <ScreenWrapper bg="white">
       <StatusBar style="dark" />
@@ -96,18 +92,17 @@ const SignUp = () => {
                   color: theme.colors.primaryDark,
                   fontWeight: theme.fonts.semibold,
                 },
-              ]}
-            >
+              ]}>
               Login
             </Text>
           </Pressable>
         </View>
       </View>
     </ScreenWrapper>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp
 
 const styles = StyleSheet.create({
   container: {
@@ -139,4 +134,4 @@ const styles = StyleSheet.create({
     color: theme.colors.text,
     fontSize: hp(1.6),
   },
-});
+})

@@ -1,13 +1,24 @@
 import { decode } from "base64-arraybuffer";
 import * as FileSystem from "expo-file-system";
 import { supabase } from "../lib/supabase";
+import { supabaseUrl } from "../constants";
+
+
 export const getUserImageSrc = (imagePath) => {
   if (imagePath) {
-    return { uri: imagePath };
+    return getSupabaseFileUrl(imagePath);
   } else {
     return require("../assets/images/defaultUser.png");
   }
 };
+
+export const getSupabaseFileUrl = filePath => {
+  if (filePath) {
+    return { uri: `${supabaseUrl}/storage/v1/object/public/uploads/${filePath}` }
+  }
+  return null;
+}
+
 
 export const uploadFile = async (folderName, fileUri, isImage = true) => {
   try {
@@ -27,11 +38,14 @@ export const uploadFile = async (folderName, fileUri, isImage = true) => {
       console.log("file upload error :", error);
       return { success: false, msg: "Could not upload media" };
     }
-    console.log("date: ", data);
+
     return { success: true, data: data.path };
+
   } catch (error) {
+
     console.log("file upload error :", error);
     return { success: false, msg: "Could not upload media" };
+
   }
 };
 

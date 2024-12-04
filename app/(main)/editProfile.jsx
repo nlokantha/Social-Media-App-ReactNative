@@ -66,6 +66,7 @@ const EditProfile = () => {
       return;
     }
     setLoading(true);
+
     if (typeof image == "object") {
       // upload image
       let imageRes = await uploadFile("profiles", image?.uri, true);
@@ -83,10 +84,7 @@ const EditProfile = () => {
     }
   };
 
-  let imageSource =
-    user.image && typeof user.image == "object"
-      ? user.image.uri
-      : getUserImageSrc(user.image);
+  let imageSource = user.image && typeof user.image == "object" ? user.image.uri : getUserImageSrc(user.image);
   return (
     <ScreenWrapper>
       <View style={styles.container}>
